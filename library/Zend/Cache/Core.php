@@ -34,6 +34,11 @@ class Zend_Cache_Core
     const BACKEND_NOT_IMPLEMENTS_EXTENDED_IF = 'Current backend doesn\'t implement the Zend_Cache_Backend_ExtendedInterface, so this method is not available';
 
     /**
+     * Local Cache
+     */
+    private $_is_apc = null;
+
+    /**
      * Backend Object
      *
      * @var Zend_Cache_Backend_Interface $_backend
@@ -186,6 +191,7 @@ class Zend_Cache_Core
             $this->_backendCapabilities = $this->_backend->getCapabilities();
         }
 
+        $this->_is_apc = $backendObject instanceof Zend_Cache_Backend_Apc;
     }
 
     /**
@@ -303,15 +309,17 @@ class Zend_Cache_Core
         $this->_validateIdOrTag($id);
 
         $this->_log("Zend_Cache_Core: load item '{$id}'", 7);
+
         $data = $this->_backend->load($id, $doNotTestCacheValidity);
         if ($data===false) {
             // no cache available
             return false;
         }
-        if ((!$doNotUnserialize) && $this->_options['automatic_serialization']) {
+        if ((!$doNotUnserialize) && $this->_options['automatic_serialization'] && !$this->_is_apc) {
             // we need to unserialize before sending the result
-            return unserialize($data);
+            $data = unserialize($data);
         }
+
         return $data;
     }
 
@@ -357,11 +365,13 @@ class Zend_Cache_Core
         }
         $this->_validateIdOrTag($id);
         $this->_validateTagsArray($tags);
-        if ($this->_options['automatic_serialization']) {
-            // we need to serialize datas before storing them
-            $data = serialize($data);
-        } else {
-            if (!is_string($data)) {
+
+        /* if here use apc as backend, we do not need serialize data */
+        if (!$this->_is_apc){
+            if ($this->_options['automatic_serialization']) {
+                // we need to serialize datas before storing them
+                $data = serialize($data);
+            } else if (!is_string($data)) {
                 Zend_Cache::throwException("Datas must be string or set automatic_serialization = true");
             }
         }
