@@ -4,7 +4,7 @@ ZF1 is EOL, I'm focus on performance tuning.
 
 Welcome to the Zend Framework 1.12 Release!
 
-Master: [![Build Status](https://api.travis-ci.org/zendframework/zf1.png?branch=master)](https://travis-ci.org/zendframework/zf1)
+Master: [![Build Status](https://api.travis-ci.org/axot/zf1.png?branch=master)](https://travis-ci.org/axot/zf1)
 
 RELEASE INFORMATION
 ===================
