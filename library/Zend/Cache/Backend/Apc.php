@@ -348,7 +348,8 @@ class Zend_Cache_Backend_Apc extends Zend_Cache_Backend implements Zend_Cache_Ba
             'expired_read' => false,
             'priority' => false,
             'infinite_lifetime' => false,
-            'get_list' => true
+            'get_list' => true,
+            'support_alltypes' => true
         );
     }
 

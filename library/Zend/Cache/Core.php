@@ -34,11 +34,6 @@ class Zend_Cache_Core
     const BACKEND_NOT_IMPLEMENTS_EXTENDED_IF = 'Current backend doesn\'t implement the Zend_Cache_Backend_ExtendedInterface, so this method is not available';
 
     /**
-     * Local Cache
-     */
-    private $_is_apc = null;
-
-    /**
      * Backend Object
      *
      * @var Zend_Cache_Backend_Interface $_backend
@@ -190,8 +185,6 @@ class Zend_Cache_Core
             $this->_extendedBackend = true;
             $this->_backendCapabilities = $this->_backend->getCapabilities();
         }
-
-        $this->_is_apc = $backendObject instanceof Zend_Cache_Backend_Apc;
     }
 
     /**
@@ -315,7 +308,10 @@ class Zend_Cache_Core
             // no cache available
             return false;
         }
-        if ((!$doNotUnserialize) && $this->_options['automatic_serialization'] && !$this->_is_apc) {
+        if ((!$doNotUnserialize) &&
+            $this->_options['automatic_serialization'] &&
+            empty($this->_backendCapabilities['support_alltypes']))
+        {
             // we need to unserialize before sending the result
             $data = unserialize($data);
         }
@@ -366,8 +362,8 @@ class Zend_Cache_Core
         $this->_validateIdOrTag($id);
         $this->_validateTagsArray($tags);
 
-        /* if here use apc as backend, we do not need serialize data */
-        if (!$this->_is_apc){
+        /* if backend support all data types, we do not need serialize data */
+        if (empty($this->_backendCapabilities['support_alltypes'])) {
             if ($this->_options['automatic_serialization']) {
                 // we need to serialize datas before storing them
                 $data = serialize($data);
