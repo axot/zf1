@@ -27,6 +27,7 @@ require_once 'Zend/Cache.php';
 require_once 'Zend/Cache/Core.php';
 require_once 'Zend/Cache/Backend/File.php'; // TODO : use only Test backend ?
 require_once 'Zend/Cache/Backend/Test.php';
+require_once 'Zend/Cache/Backend/Apc.php';
 
 require_once 'Zend/Config.php';
 
@@ -528,6 +529,51 @@ class Zend_Cache_CoreTest extends PHPUnit_Framework_TestCase
 
         $logger = $this->_instance->getOption('logger');
         $this->assertTrue($logger instanceof Zend_Log);
+    }
+
+    public function testSupportAllTypes() {
+        $data = array(
+            array(1,2,3),
+            new DateTime(),
+            'hello world',
+        );
+
+        $keys = array(
+            'key1',
+            'key2',
+            'key3',
+        );
+
+        $this->_instance->setOption('automatic_serialization', true);
+        if (extension_loaded('apc')) {
+            $this->_instance->setBackend(new Zend_Cache_Backend_Apc(array()));
+            $cap = $this->_instance->getBackend()->getCapabilities();
+            for ($i=0; $i<count($data); ++$i) {
+                $this->_instance->save($data[$i], $keys[$i]);
+
+                $ret = $this->_instance->getBackend()->load($keys[$i]);
+                if (!empty($cap['support_alltypes'])) {
+                    $this->assertEquals($data[$i], $ret);
+                } else {
+                    $this->fail("apc support_alltypes test failed.");
+                }
+            }
+        }
+
+        if (extension_loaded('memcache')) {
+            $this->_instance->setBackend(new Zend_Cache_Backend_Memcached(array()));
+            $cap = $this->_instance->getBackend()->getCapabilities();
+            for ($i=0; $i<count($data); ++$i) {
+                $this->_instance->save($data[$i], $keys[$i]);
+
+                $ret = $this->_instance->getBackend()->load($keys[$i]);
+                if (!empty($cap['support_alltypes'])) {
+                    $this->fail("apc support_alltypes test failed.");
+                } else {
+                    $this->assertEquals($data[$i], unserialize($ret));
+                }
+            }
+        }
     }
 
     /**
