@@ -1,0 +1,10 @@
+ZF1                                                                        NEWS
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+?? ??? 2016, ZF1 1.12.21-dev
+
+- Format:
+  . Fixes a bug since PHP-7.0.11 iconv_substr api changes
+
+- Cache:
+  . Delete unnecessary (un)serialize for APC
+
