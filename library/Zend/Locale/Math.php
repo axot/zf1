@@ -182,6 +182,9 @@ class Zend_Locale_Math
             $value = "-" . $value;
         }
 
+        if (empty($value)) {
+            return '0';
+        }
         return $value;
     }
 
