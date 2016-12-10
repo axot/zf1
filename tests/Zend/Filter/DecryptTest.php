@@ -54,6 +54,10 @@ class Zend_Filter_DecryptTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Mcrypt extension not installed');
         }
 
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
+        }
+
         $filter = new Zend_Filter_Decrypt(array('adapter' => 'Mcrypt'));
         $valuesExpected = array(
             'STRING' => 'STRING',
@@ -123,6 +127,10 @@ d/fxzPfuO/bLpADozTAnYT9Hu3wPrQVLeAfCp0ojqH7DYg==
             $this->markTestSkipped('Mcrypt extension not installed');
         }
 
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
+        }
+
         $filter = new Zend_Filter_Decrypt(array('adapter' => 'Mcrypt', 'key' => 'testkey'));
         $filter->setVector('testvect');
         $this->assertEquals('testvect', $filter->getVector());
@@ -137,6 +145,10 @@ d/fxzPfuO/bLpADozTAnYT9Hu3wPrQVLeAfCp0ojqH7DYg==
     {
         if (!extension_loaded('mcrypt')) {
             $this->markTestSkipped('Mcrypt extension not installed');
+        }
+
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
         }
 
         $filter = new Zend_Filter_Decrypt(array('adapter' => 'Mcrypt', 'key' => 'testkey'));
@@ -164,6 +176,10 @@ d/fxzPfuO/bLpADozTAnYT9Hu3wPrQVLeAfCp0ojqH7DYg==
     {
         if (!extension_loaded('mcrypt')) {
             $this->markTestSkipped('Mcrypt extension not installed');
+        }
+
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
         }
 
         $filter = new Zend_Filter_Decrypt(array('adapter' => 'Mcrypt', 'key' => 'testkey'));
@@ -194,6 +210,10 @@ d/fxzPfuO/bLpADozTAnYT9Hu3wPrQVLeAfCp0ojqH7DYg==
     {
         if (!extension_loaded('mcrypt')) {
             $this->markTestSkipped('Mcrypt extension not installed');
+        }
+
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
         }
 
         $filter = new Zend_Filter_Encrypt(array('adapter' => 'Mcrypt', 'key' => 'testkey'));
@@ -247,6 +267,10 @@ bK22CwD/l7SMBOz4M9XH0Jb0OhNxLza4XMDu0ANMIpnkn1KOcmQ4gB8fmAbBt');
             $this->markTestSkipped('Mcrypt or Openssl extension not installed');
         }
 
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
+        }
+
         $filter = new Zend_Filter_Decrypt();
         $filter->setAdapter('Openssl');
         $this->assertEquals('Openssl', $filter->getAdapter());
@@ -269,6 +293,10 @@ bK22CwD/l7SMBOz4M9XH0Jb0OhNxLza4XMDu0ANMIpnkn1KOcmQ4gB8fmAbBt');
     {
         if (!extension_loaded('mcrypt')) {
             $this->markTestSkipped('Mcrypt extension not installed');
+        }
+
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Mcrypt is deprecated from PHP-7.1');
         }
 
         $filter = new Zend_Filter_Decrypt();
