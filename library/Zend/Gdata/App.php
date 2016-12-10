@@ -606,11 +606,11 @@ class Zend_Gdata_App
         }
         // Append a Gdata version header if protocol v2 or higher is in use.
         // (Protocol v1 does not use this header.)
-        $major = $this->getMajorProtocolVersion();
-        $minor = $this->getMinorProtocolVersion();
-        if ($major >= 2) {
-            $headers['GData-Version'] = $major +
-                    (($minor === null) ? '.' + $minor : '');
+        $major = (string)$this->getMajorProtocolVersion();
+        $minor = (string)$this->getMinorProtocolVersion();
+        if ((int)$major >= 2) {
+            $headers['GData-Version'] = $major .
+                    (($minor === null) ? '.' . $minor : '');
         }
 
         // check the overridden method
