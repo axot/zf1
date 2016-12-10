@@ -678,6 +678,10 @@ class Zend_Controller_Request_HttpTest extends PHPUnit_Framework_TestCase
 
     public function testGetHeaderThrowsExceptionWithNoInput()
     {
+        if (version_compare(PHP_VERSION, '7.1.0', '>=')) {
+            $this->markTestSkipped('Few arguments behavior changes since PHP-7.1');
+        }
+
         try {
             // Suppressing warning
             $header = @$this->_request->getHeader();
