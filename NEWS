@@ -13,3 +13,6 @@ ZF1                                                                        NEWS
 
 - Encrypt:
   . Mcrypt is deprecated
+
+- Zend_TimeSync_Ntp
+  . Bug fixed for incorrect NTP packet format
